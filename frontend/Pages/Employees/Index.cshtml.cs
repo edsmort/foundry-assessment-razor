@@ -14,13 +14,6 @@ namespace foundry_assessment_razor.Pages.Employees
 {
     public class IndexModel : PageModel
     {
-        private readonly FoundryAssessmentContext _context;
-
-        public IndexModel(FoundryAssessmentContext context)
-        {
-            _context = context;
-        }
-
         public IList<Employee> Employee { get;set; }
 
         public async Task OnGetAsync()

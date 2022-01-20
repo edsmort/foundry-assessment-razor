@@ -8,21 +8,48 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using frontend.Models;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace foundry_assessment_razor.Pages.Clients
 {
     public class EditModel : PageModel
     {
-        private readonly FoundryAssessmentContext _context;
-
-        public EditModel(FoundryAssessmentContext context)
-        {
-            _context = context;
-        }
-
         [BindProperty]
         public Client Client { get; set; }
 
+        public Client GetClient(string id)
+        {
+            using (var hc = new HttpClient())
+            {
+                var response = hc.GetAsync("http://localhost:3000/clients/" + id);
+                response.Wait();
+                var result = response.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    var jsonResponse = result.Content.ReadAsStringAsync().Result;
+                    System.Diagnostics.Debug.WriteLine(jsonResponse);
+                    var convertedData = JsonConvert.DeserializeObject<Client>(jsonResponse);
+                    return convertedData;
+                }
+                return null;
+            }
+        }
+
+        public void EditClient(string id, string name)
+        {
+            using (var hc = new HttpClient())
+            {
+                var client = new
+                {
+                    name = name
+                };
+                string updated = JsonConvert.SerializeObject(client);
+                HttpContent payload = new StringContent(updated, Encoding.UTF8, "application/json");
+                var response = hc.PutAsync("http://localhost:3000/clients/" + id, payload);
+                response.Wait();
+            }
+        }
         public async Task<IActionResult> OnGetAsync(string id)
         {
             if (id == null)
@@ -30,7 +57,7 @@ namespace foundry_assessment_razor.Pages.Clients
                 return NotFound();
             }
 
-            Client = await _context.Client.FirstOrDefaultAsync(m => m.ID == id);
+            Client = GetClient(id); 
 
             if (Client == null)
             {
@@ -48,30 +75,9 @@ namespace foundry_assessment_razor.Pages.Clients
                 return Page();
             }
 
-            _context.Attach(Client).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ClientExists(Client.ID))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            EditClient(Client.ID, Client.Name);
 
             return RedirectToPage("./Index");
-        }
-
-        private bool ClientExists(string id)
-        {
-            return _context.Client.Any(e => e.ID == id);
         }
     }
 }
