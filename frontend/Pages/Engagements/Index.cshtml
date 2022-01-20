@@ -1,0 +1,66 @@
+@page
+@model foundry_assessment_razor.Pages.Engagements.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Engagement[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Engagement[0].Client)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Engagement[0].Employee)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Engagement[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Engagement[0].Started)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Engagement[0].Ended)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Engagement) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Client)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Employee)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Started)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ended)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

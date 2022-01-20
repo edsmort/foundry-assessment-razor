@@ -1,0 +1,64 @@
+@page
+@model foundry_assessment_razor.Pages.Engagements.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Engagement</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Engagement.ID" class="control-label"></label>
+                <input asp-for="Engagement.ID" class="form-control" />
+                <span asp-validation-for="Engagement.ID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Engagement.Name" class="control-label"></label>
+                <input asp-for="Engagement.Name" class="form-control" />
+                <span asp-validation-for="Engagement.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Engagement.Client" class="control-label"></label>
+                <input asp-for="Engagement.Client" class="form-control" />
+                <span asp-validation-for="Engagement.Client" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Engagement.Employee" class="control-label"></label>
+                <input asp-for="Engagement.Employee" class="form-control" />
+                <span asp-validation-for="Engagement.Employee" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Engagement.Description" class="control-label"></label>
+                <input asp-for="Engagement.Description" class="form-control" />
+                <span asp-validation-for="Engagement.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Engagement.Started" class="control-label"></label>
+                <input asp-for="Engagement.Started" class="form-control" />
+                <span asp-validation-for="Engagement.Started" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Engagement.Ended" class="control-label"></label>
+                <input asp-for="Engagement.Ended" class="form-control" />
+                <span asp-validation-for="Engagement.Ended" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
